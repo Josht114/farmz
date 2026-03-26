@@ -60,9 +60,9 @@ namespace FarmGame.UI
             DrawRect(sb, new Rectangle(10, 10, 180, 40), new Color(0, 0, 0, 160));
             if (_font != null)
             {
-                string inv = $"Seeds:{_player.Inventory.GetValueOrDefault("Seeds")}  " +
-                             $"Carrots:{_player.Inventory.GetValueOrDefault("Carrot")}  " +
-                             $"G:{_player.Gold}";
+                int seeds   = _player.Inventory.ContainsKey("Seeds")  ? _player.Inventory["Seeds"]  : 0;
+int carrots = _player.Inventory.ContainsKey("Carrot") ? _player.Inventory["Carrot"] : 0;
+string inv  = $"Seeds:{seeds}  Carrots:{carrots}  G:{_player.Gold}";
                 sb.DrawString(_font, inv,
                               new Vector2(15, 18), Color.White, 0,
                               Vector2.Zero, 0.65f, SpriteEffects.None, 0);
