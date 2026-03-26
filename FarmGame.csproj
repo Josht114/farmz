@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>FarmGame</AssemblyName>
+    <RootNamespace>FarmGame</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- MonoGame framework (DesktopGL works on Windows, Mac & Linux) -->
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
+    <PackageReference Include="MonoGame.Content.Builder.Task"  Version="3.8.1.303" />
+  </ItemGroup>
+
+  <!-- Include compiled content pipeline output -->
+  <ItemGroup>
+    <MonoGameContentReference Include="Content\Content.mgcb" />
+  </ItemGroup>
+
+</Project>
