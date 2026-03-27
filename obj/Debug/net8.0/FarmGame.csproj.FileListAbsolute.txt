@@ -23,3 +23,4 @@ C:\projects\farmz\obj\Debug\net8.0\refint\FarmGame.dll
 C:\projects\farmz\obj\Debug\net8.0\FarmGame.pdb
 C:\projects\farmz\obj\Debug\net8.0\FarmGame.genruntimeconfig.cache
 C:\projects\farmz\obj\Debug\net8.0\ref\FarmGame.dll
+C:\projects\farmz\obj\Debug\net8.0\FarmGame.sourcelink.json
