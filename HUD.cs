@@ -78,6 +78,9 @@ string inv  = $"Seeds:{seeds}  Carrots:{carrots}  G:{_player.Gold}";
                 sb.DrawString(_font, "1/2/3: Hoe / Seeds / Scythe",
                               new Vector2(15, sh - 98), Color.LightGray, 0,
                               Vector2.Zero, 0.6f, SpriteEffects.None, 0);
+                sb.DrawString(_font, "WASD: Move   E: Interact   Z: Sleep",
+              new Vector2(15, sh - 115), Color.LightGray, 0,
+              Vector2.Zero, 0.6f, SpriteEffects.None, 0);
             }
         }
 
