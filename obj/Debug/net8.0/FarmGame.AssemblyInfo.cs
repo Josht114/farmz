@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FarmGame")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4aa7910aaa41497fdddeebfcb627de7e24fc9011")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0be88a050b25dec1be2e3caed9290f988ba8e83e")]
 [assembly: System.Reflection.AssemblyProductAttribute("FarmGame")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FarmGame")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

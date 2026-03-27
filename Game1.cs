@@ -5,6 +5,8 @@ using FarmGame.Systems;
 using FarmGame.Entities;
 using FarmGame.Core;
 
+
+
 namespace FarmGame.Core
 {
     public class Game1 : Game
@@ -17,6 +19,8 @@ namespace FarmGame.Core
         private InputHandler _inputHandler;
         private TimeSystem   _timeSystem;
         private UI.HUD       _hud;
+
+        private UI.ShopScreen _shop;
 
         public static Matrix CameraTransform { get; private set; }
         private Vector2 _cameraPosition;
@@ -52,6 +56,8 @@ namespace FarmGame.Core
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             TextureManager.Load(Content, GraphicsDevice);
             _hud = new UI.HUD(_player, _timeSystem);
+            _shop = new UI.ShopScreen(_player);
+            
 
             // 1x1 white pixel for the overlay
             _pixel = new Texture2D(GraphicsDevice, 1, 1);
@@ -61,6 +67,7 @@ namespace FarmGame.Core
             {
                 var font = Content.Load<Microsoft.Xna.Framework.Graphics.SpriteFont>("DefaultFont");
                 _hud.SetFont(font);
+                _shop.SetFont(font);
             }
             catch { }
         }
@@ -78,6 +85,15 @@ namespace FarmGame.Core
             _prevKeys = keys;
 
             _inputHandler.Update(gameTime);
+
+            _shop.Update();
+
+// Block movement and interaction while shop is open
+if (_shop.IsOpen)
+{
+    _player.SetVelocity(Vector2.Zero);
+    return;
+}
 
             if (_inputHandler.InteractPressed)
                 _player.Interact(_worldMap);
@@ -122,6 +138,7 @@ namespace FarmGame.Core
 
             // HUD drawn on top of overlay so it stays readable
             _hud.Draw(_spriteBatch, GraphicsDevice);
+            _shop.Draw(_spriteBatch, GraphicsDevice);
             _spriteBatch.End();
 
             base.Draw(gameTime);

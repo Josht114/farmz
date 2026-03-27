@@ -9,12 +9,9 @@ namespace FarmGame.Entities
 
     public class Player
     {
-        // ------------------------------------------------------------------ state
-
-        public Vector2 Position     { get; set; }   // tile-space position
+        public Vector2 Position     { get; set; }
         public Tool    EquippedTool { get; set; } = Tool.Hoe;
 
-        // Simple inventory: item name → quantity
         public Dictionary<string, int> Inventory { get; } = new()
         {
             ["Seeds"]  = 10,
@@ -23,28 +20,25 @@ namespace FarmGame.Entities
 
         public int Gold { get; set; } = 100;
 
-        // ------------------------------------------------------------------ movement
+        // Crop sell prices
+        public static readonly Dictionary<string, int> SellPrices = new()
+        {
+            ["Carrot"] = 15,
+        };
 
-        private const float MOVE_SPEED = 5f;        // tiles per second
+        private const float MOVE_SPEED = 5f;
         private Vector2 _velocity;
-
-        // ------------------------------------------------------------------ ctor
 
         public Player(Vector2 startTile)
         {
             Position = startTile;
         }
 
-        // ------------------------------------------------------------------ update
-
         public void Update(GameTime gameTime, WorldMap world)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            // Apply velocity
             Vector2 next = Position + _velocity * delta * MOVE_SPEED;
 
-            // Tile-level collision: only move if destination is walkable
             int tx = (int)next.X;
             int ty = (int)next.Y;
 
@@ -60,9 +54,6 @@ namespace FarmGame.Entities
 
         public void SetVelocity(Vector2 v) => _velocity = v;
 
-        // ------------------------------------------------------------------ interact
-
-        /// <summary>Use the equipped tool on the tile the player is standing on.</summary>
         public bool Interact(WorldMap world)
         {
             int tx = (int)Position.X;
@@ -85,7 +76,7 @@ namespace FarmGame.Entities
                     if (world.Harvest(tx, ty))
                     {
                         Inventory["Carrot"] =
-                            Inventory.GetValueOrDefault("Carrot") + 1;
+                            (Inventory.ContainsKey("Carrot") ? Inventory["Carrot"] : 0) + 1;
                         return true;
                     }
                     return false;
@@ -93,7 +84,28 @@ namespace FarmGame.Entities
             return false;
         }
 
-        // ------------------------------------------------------------------ draw
+        /// <summary>Sell all of a crop. Returns gold earned, or 0 if none to sell.</summary>
+        public int SellAll(string cropName)
+        {
+            if (!Inventory.ContainsKey(cropName) || Inventory[cropName] <= 0) return 0;
+            if (!SellPrices.ContainsKey(cropName)) return 0;
+
+            int qty      = Inventory[cropName];
+            int earned   = qty * SellPrices[cropName];
+            Gold        += earned;
+            Inventory[cropName] = 0;
+            return earned;
+        }
+
+        /// <summary>Buy seeds. Returns true on success.</summary>
+        public bool BuySeeds(int qty, int priceEach)
+        {
+            int total = qty * priceEach;
+            if (Gold < total) return false;
+            Gold -= total;
+            Inventory["Seeds"] = (Inventory.ContainsKey("Seeds") ? Inventory["Seeds"] : 0) + qty;
+            return true;
+        }
 
         public void Draw(SpriteBatch sb)
         {
@@ -102,7 +114,6 @@ namespace FarmGame.Entities
                 (int)(Position.X * ts),
                 (int)(Position.Y * ts),
                 ts, ts);
-
             sb.Draw(TextureManager.PlayerTex, rect, Color.White);
         }
     }
