@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.IO;
 
 namespace FarmGame.Core
 {
@@ -25,15 +26,26 @@ namespace FarmGame.Core
         {
             Pixel = MakePixel(gd, Color.White);
 
+
+            PlayerTex    = LoadPng(gd, "Content/Textures/player.png");
+            GrassTex     = LoadPng(gd, "Content/Textures/grass.png");
+            DirtTex      = LoadPng(gd, "Content/Textures/dirt.png");
+            PlowedTex    = LoadPng(gd, "Content/Textures/plowed.png");
+            WaterTex     = LoadPng(gd, "Content/Textures/water.png");
+            SeedlingTex  = LoadPng(gd, "Content/Textures/seedling.png");
+            CropReadyTex = LoadPng(gd, "Content/Textures/crop_ready.png");
+            TreeTex      = LoadPng(gd, "Content/Textures/tree.png");
+// etc...
+
             // Try loading real assets; fall back to solid-colour placeholders
-            PlayerTex    = TryLoad(content, "player",     gd, Color.Blue);
+        /*     PlayerTex    = TryLoad(content, "player",     gd, Color.Blue);
             GrassTex     = TryLoad(content, "grass",      gd, Color.LimeGreen);
             DirtTex      = TryLoad(content, "dirt",       gd, Color.SaddleBrown);
             PlowedTex    = TryLoad(content, "plowed",     gd, Color.Peru);
             WaterTex     = TryLoad(content, "water",      gd, Color.CornflowerBlue);
             SeedlingTex  = TryLoad(content, "seedling",   gd, Color.YellowGreen);
             CropReadyTex = TryLoad(content, "crop_ready", gd, Color.Gold);
-            TreeTex      = TryLoad(content, "tree",       gd, Color.DarkGreen);
+            TreeTex      = TryLoad(content, "tree",       gd, Color.DarkGreen); */
         }
 
         // ------------------------------------------------------------------ helpers
@@ -60,5 +72,15 @@ namespace FarmGame.Core
             tex.SetData(data);
             return tex;
         }
+
+        private static Texture2D LoadPng(GraphicsDevice gd, string path)
+{
+    try
+    {
+        using var stream = File.OpenRead(path);
+        return Texture2D.FromStream(gd, stream);
+    }
+    catch { return MakeSolid(gd, Color.Magenta, 8, 8); }
+}
     }
 }

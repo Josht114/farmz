@@ -67,8 +67,8 @@ namespace FarmGame.Core
             _inputHandler.Update(gameTime);
 
             // Wire interact: E key → player uses tool on world
-            if (_inputHandler.InteractJustPressed())
-                _player.Interact(_worldMap);
+           if (_inputHandler.InteractPressed)
+    _player.Interact(_worldMap);
 
             _player.Update(gameTime, _worldMap);
             _worldMap.Update(gameTime);
